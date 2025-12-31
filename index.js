@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const env = require('dotenv');
 const mongoose = require('mongoose');
-const Movie = require('./models/movie.model');
+
+const MovieRoutes = require("./routes/movie.routes");
 
 env.config(); //this will read the .env file and add the values to process.env
 const app = express();  //express application object
@@ -10,6 +11,8 @@ const app = express();  //express application object
 //configuring body parser
 app.use(bodyParser.urlencoded({}))
 app.use(bodyParser.json());
+
+MovieRoutes(app) //invoking movie routes
 
 
 app.get('/home',(req,res)=>{
