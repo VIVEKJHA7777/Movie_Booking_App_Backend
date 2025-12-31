@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const env = require('dotenv');
 const mongoose = require('mongoose');
+const Movie = require('./models/movie.model');
 
 env.config(); //this will read the .env file and add the values to process.env
 const app = express();  //express application object
@@ -26,6 +27,16 @@ app.listen(process.env.PORT, async () => {
   try{
     await mongoose.connect(process.env.DB_URL); //connected to the mongo server
     console.log("Succesfully connected to the MongoDB");
+    // await Movie.create({
+    //   name: "Bacchan Pandey",
+    //   description: "Comedy masala movie",
+    //   casts: ["Akshay Kumar", "Kriti Sanon","Jacqueline Fernandiz"],
+    //   director: "Farhad Samji",
+    //   trailerURl: "https://www.youtube.com/watch?v=nsGZ6Y1gQ-E",
+    //   language: "Hindi",
+    //   releaseDate: "18-03-2022",
+    //   releasedStatus: "RELEASED"
+    // })
   }
   catch(err){
     console.log("Error while connecting to MongoDB", err);
