@@ -1,46 +1,18 @@
 const Movie = require('../models/movie.model');
 const movieService = require('../services/movie.service');
-
-/**
- * controller function to create a new movie
- * @param {*} req {name,description,..}
- * @param {*} res 
- * @returns movie created
- */
-
-const errorResponseBody = {
-  err: {},
-  data: {},
-  message: "Something went wrong, cannot process the request", 
-  success: false
-}
-
-const successResponseBody = {
-  err: {},
-  data: {},
-  message: "Successfully processed the request", 
-  success: true
-}
-
+const { errorResponseBody, successResponseBody } = require('../utils/responsebody');
 
 const createMovie = async(req,res)=>{
  try{
-    const movie = await Movie.create(req.body)
-    return res.status(201).json({
-      success: true,
-      error: {},
-      data: movie,
-      message: 'Successfully created a new movie'
-    })
+    const movie = await movieService.createMovie(req.body);
+    successResponseBody.data = movie;
+    successResponseBody.message = "Successfully created a new movie";
+    return res.status(201).json(successResponseBody);
  }
  catch(err){
     console.log(err);
-    return res.status(500).json({
-      success: false,
-      error: err,
-      data: {},
-      message: "Something went wrong"
-    })
+    errorResponseBody.err = err;
+    return res.status(500).json(errorResponseBody);
  }
 }
 
@@ -48,23 +20,14 @@ const createMovie = async(req,res)=>{
 
 const deleteMovie = async(req,res)=>{
   try{
-    const response = await Movie.deleteOne({
-      _id: req.params.id
-    });
-    return res.status(200).json({
-      success: true,
-      error: {},
-      message: "Successfully deleted the movie",
-      data: response
-    })
+    const response = await movieService.deleteMovie(req.params.id);
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully deleted the movie";
+    return res.status(200).json(successResponseBody);
   } catch(err){
     console.log(err);
-    return res.status(500).json({
-      success: false,
-      error: err,
-      data: {},
-      message: "Something went wrong"
-    })
+    errorResponseBody.err = err;
+    return res.status(500).json(errorResponseBody);
   }
 }
 
