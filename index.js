@@ -9,7 +9,7 @@ env.config(); //this will read the .env file and add the values to process.env
 const app = express();  //express application object
 
 //configuring body parser
-app.use(bodyParser.urlencoded({}))
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 MovieRoutes(app) //invoking movie routes
